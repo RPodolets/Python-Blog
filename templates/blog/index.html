@@ -31,8 +31,10 @@
             </div>
           </div>
         {% endfor %}
+        {% include "includes/pagination.html"%}
       </div>
-      {% block sidebar %} {% include "includes/sidebar.html" %} {% endblock sidebar %}
+      {% include "includes/sidebar.html" %}
+
     </div>
   </div>
 {% endblock %}
