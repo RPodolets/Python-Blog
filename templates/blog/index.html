@@ -31,10 +31,9 @@
             </div>
           </div>
         {% endfor %}
-        {% include "includes/pagination.html"%}
+        {% include "includes/pagination.html" with tags=tag_list %}
       </div>
       {% include "includes/sidebar.html" %}
-
     </div>
   </div>
 {% endblock %}
