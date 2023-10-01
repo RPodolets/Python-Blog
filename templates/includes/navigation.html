@@ -10,7 +10,7 @@
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a href="{{ user.get_absolute_url }}"
+            <a href="{% url 'blog:user_detail' user.id %}"
                class="nav-link text-black font-weight-bold">{{ user.get_username }}
             </a>
           </li>
