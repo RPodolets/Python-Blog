@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import generic
 
-from blog.forms import CommentForm
+from blog.forms import CommentForm, SignUpForm
 from blog.models import Post, Tag, Comment
 
 
@@ -51,3 +53,9 @@ def post_detail(request, pk):
         "comment_form": comment_form
     }
     return render(request, template_name, context=context)
+
+
+class SignUpView(generic.CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"

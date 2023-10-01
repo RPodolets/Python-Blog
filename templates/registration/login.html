@@ -11,5 +11,7 @@
       {{ form|crispy }}
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <br>
+    <p>Don't have an account ? <a class="alert-link" href="{% url 'blog:signup' %}">Sign up</a></p>
   </div>
 {% endblock %}
