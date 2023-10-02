@@ -8,7 +8,7 @@
           <p class="card-text ">{{ post.content | safe }}</p>
         </div>
       </div>
-      {% block sidebar %} {% include 'includes/sidebar_tags.html' %} {% endblock sidebar %}
+      {% block sidebar %} {% include 'includes/sidebar.html' with tag_list=post.tags.all %} {% endblock sidebar %}
     </div>
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
