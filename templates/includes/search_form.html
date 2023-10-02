@@ -1,0 +1,8 @@
+{% load crispy_forms_filters %}
+
+<div class="row" style="justify-content: center">
+    <form action="" method="get" class="form-inline">
+      {{ search_form|crispy }}
+      <input type="submit" value="Search" class="search-button mb-3">
+    </form>
+</div>

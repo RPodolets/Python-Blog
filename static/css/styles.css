@@ -9,8 +9,7 @@ body {
 }
 
 .masthead {
-    /*background-color: grey;*/
-    background-image: url("../img/background.png");
+    background-color: silver;
     height: auto;
     padding-bottom: 15px;
     box-shadow: 0 16px 48px #E3E7EB;
@@ -36,4 +35,17 @@ body {
     margin: 0 10px 10px 0;
     text-decoration: none;
     -webkit-transition: color 0.2s;
+}
+
+.search-button {
+    display: block;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

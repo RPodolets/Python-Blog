@@ -15,7 +15,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'logout'%}?next={{request.path}}"
+            <a href="{% url 'logout'%}?next={% url 'blog:index' %}"
                class="nav-link text-black font-weight-bold">Logout
             </a>
           </li>
@@ -26,12 +26,12 @@
             </a>
           </li>
         {% endif %}
-        <li class="nav-item text-black">
-          <a class="nav-link text-black font-weight-bold" href="#">About</a>
-        </li>
-        <li class="nav-item text-black">
-          <a class="nav-link text-black font-weight-bold" href="#">Contact</a>
-        </li>
+{#        <li class="nav-item text-black">#}
+{#          <a class="nav-link text-black font-weight-bold" href="#">About</a>#}
+{#        </li>#}
+{#        <li class="nav-item text-black">#}
+{#          <a class="nav-link text-black font-weight-bold" href="#">Contact</a>#}
+{#        </li>#}
       </ul>
     </div>
   </div>
