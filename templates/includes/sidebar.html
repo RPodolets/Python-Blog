@@ -14,5 +14,18 @@
       {% endfor %}
     </div>
   </div>
+
+  <div class="card my-3">
+    <h5 class="card-header">Popular</h5>
+    <div class="card-body">
+      <ul>
+      {% for post in post_list|dictsortreversed:"views"|slice:":5" %}
+          <li><a href="{% url 'blog:post_detail' post.id %}" class="item_link">{{ post.title }}</a></li>
+      {% empty %}
+        <p>No posts</p>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
 

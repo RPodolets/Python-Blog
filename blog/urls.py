@@ -10,6 +10,7 @@ from blog.views import (
     UserUpdate,
     UserDelete,
     index,
+    CommentDelete,
 )
 
 urlpatterns = [
@@ -21,6 +22,7 @@ urlpatterns = [
     path("user/<int:pk>", UserDetailView.as_view(), name="user_detail"),
     path("user/<int:pk>/update", UserUpdate.as_view(), name="user_update"),
     path("user/<int:pk>/delete", UserDelete.as_view(), name="user_delete"),
+    path("comment/<int:pk>/delete", CommentDelete.as_view(), name="comment_delete"),
     path("signup/", SignUpView.as_view(), name="signup")
 ]
 

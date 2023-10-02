@@ -52,7 +52,7 @@ def post_detail(request, pk):
     if post:
         post.update_views()
 
-    comments = Comment.objects.filter(post__id=pk).order_by("-created_at")
+    comments = Comment.objects.filter(post__id=pk).select_related("user").order_by("-created_at")
     new_comment = None
 
     if request.method == 'POST':
@@ -63,7 +63,7 @@ def post_detail(request, pk):
             new_comment.post = post
             new_comment.user = user
             new_comment.save()
-            return HttpResponseRedirect(f"/{pk}")
+            return HttpResponseRedirect(reverse("blog:post_detail", kwargs={"pk": pk}))
 
     comment_form = CommentForm()
     context = {
@@ -86,6 +86,14 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = get_user_model().objects.all()
 
 
+class UserUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = User
+
+
+class UserDelete(LoginRequiredMixin, generic.DeleteView):
+    model = User
+
+
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     queryset = Post.objects.select_related("user").prefetch_related("tags")
@@ -95,9 +103,9 @@ class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
 
 
-class UserUpdate(LoginRequiredMixin, generic.UpdateView):
-    model = User
+class CommentDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Comment
 
-
-class UserDelete(LoginRequiredMixin, generic.DeleteView):
-    model = User
+    def get_success_url(self):
+        post_id = Comment.objects.get(id=self.kwargs["pk"]).post.id
+        return reverse_lazy("blog:post_detail", kwargs={"pk": post_id})
