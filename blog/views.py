@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from blog.forms import CommentForm, SignUpForm, PostSearchForm
+from blog.forms import CommentForm, SignUpForm, PostSearchForm, UserForm
 from blog.models import Post, Tag, Comment, User
 
 
@@ -17,22 +17,20 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class PostListView(LoginRequiredMixin, generic.ListView):
     model = Post
-    queryset = Post.objects.select_related("user").prefetch_related("tags").order_by("-created_at")
+    queryset = Post.objects.select_related("user").prefetch_related("tags").order_by("created_at")
     template_name = "blog/post_list.html"
     paginate_by = 5
 
     def get_queryset(self):
         form = PostSearchForm(self.request.GET)
 
-        queryset = Post.objects.select_related("user").prefetch_related("tags").order_by("-created_at")
-
         if form.is_valid():
-            queryset = queryset.filter(title__icontains=form.cleaned_data["title"])
+            self.queryset = self.queryset.filter(title__icontains=form.cleaned_data["title"])
 
         if tag := self.request.GET.get("tag", ""):
-            queryset = queryset.filter(tags__name=tag)
+            self.queryset = self.queryset.filter(tags__name=tag)
 
-        return queryset
+        return self.queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +73,7 @@ def post_detail(request, pk):
     return render(request, template_name, context=context)
 
 
-class SignUpView(LoginRequiredMixin, generic.CreateView):
+class SignUpView(generic.CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
@@ -88,9 +86,18 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
 
 class UserUpdate(LoginRequiredMixin, generic.UpdateView):
     model = User
+    form_class = UserForm
+
+    def get_success_url(self):
+        return reverse_lazy("blog:user_detail", kwargs={"pk": self.kwargs["pk"]})
 
 
 class UserDelete(LoginRequiredMixin, generic.DeleteView):
+    model = User
+    success_url = reverse_lazy("blog:index")
+
+
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
     model = User
 
 
@@ -106,6 +113,13 @@ class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
 class CommentDelete(LoginRequiredMixin, generic.DeleteView):
     model = Comment
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.request.GET.get("pk", "")
+        context["post_pk"] = pk
+        return context
+
     def get_success_url(self):
+        print(self.kwargs.items())
         post_id = Comment.objects.get(id=self.kwargs["pk"]).post.id
         return reverse_lazy("blog:post_detail", kwargs={"pk": post_id})

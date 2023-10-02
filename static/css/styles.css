@@ -23,6 +23,7 @@ body {
 .head_text {
     color: white;
 }
+
 .tag {
     background: #eee;
     border-radius: 3px 0 0 3px;
@@ -47,5 +48,5 @@ body {
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
