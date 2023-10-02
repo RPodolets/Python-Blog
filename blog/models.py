@@ -21,9 +21,14 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="posts", on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, related_name="posts")
+    views = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.title
+
+    def update_views(self, *args, **kwargs):
+        self.views = self.views + 1
+        super(Post, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):

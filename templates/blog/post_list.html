@@ -25,7 +25,10 @@
                   <a href="?tag={{ tag.name }}" class="tag">{{ tag.name }}</a>
                 {% endfor %}
               </p>
-              <p class="card-text text-muted h6">{{ post.user }} | {{ post.created_at }} </p>
+              <p class="card-text text-muted h6 d-flex justify-content-between">
+                <span>{{ post.user }} | {{ post.created_at }}</span>
+                <span>{{ post.views }} view{{ post.views|pluralize:",s" }}</span>
+              </p>
               <p class="card-text">{{ post.content|slice:":200" }}</p>
               <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-lg">Read More &rarr;</a>
             </div>

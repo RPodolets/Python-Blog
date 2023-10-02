@@ -1,4 +1,3 @@
-import django.contrib.auth
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -49,6 +48,10 @@ class PostListView(LoginRequiredMixin, generic.ListView):
 def post_detail(request, pk):
     template_name = 'blog/post_detail.html'
     post = get_object_or_404(Post, pk=pk)
+
+    if post:
+        post.update_views()
+
     comments = Comment.objects.filter(post__id=pk).order_by("-created_at")
     new_comment = None
 

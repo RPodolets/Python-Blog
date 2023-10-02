@@ -7,6 +7,9 @@
           <p class=" text-muted">{{ post.user }} | {{ post.created_at }}</p>
           <p class="card-text ">{{ post.content | safe }}</p>
         </div>
+        <div class="card-body mt-1">
+          <p class="text-muted">{{ post.views}} view{{ post.views|pluralize:",s" }}</p>
+        </div>
       </div>
       {% block sidebar %} {% include 'includes/sidebar.html' with tag_list=post.tags.all %} {% endblock sidebar %}
     </div>
