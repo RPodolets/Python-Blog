@@ -1,0 +1,71 @@
+{#<nav class="navbar navbar-expand-lg navbar-light bg-light">#}
+{#  <div class="container-fluid">#}
+{#    <a class="navbar-brand">Python <span style="color: blue">Blog</span></a>#}
+{#    <button class="navbar-toggler mr-3  " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"#}
+{#            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#      <span class="navbar-toggler-icon"></span>#}
+{#    </button>#}
+{#    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">#}
+{#      <ul class="navbar-nav me-auto mb-2 mb-lg-0">#}
+{#        <li class="nav-item mr-3">#}
+{#          <a class="nav-link active" aria-current="page" href="{% url 'blog:index' %}">Home</a>#}
+{#        </li>#}
+{#        {% if user.is_authenticated %}#}
+{#          <li class="nav-item">#}
+{#            <a href="{% url 'blog:user_detail' user.id %}"#}
+{#               class="nav-link active" aria-current="page">Hello: '{{ user.get_username }}'#}
+{#            </a>#}
+{#          </li>#}
+{#          <li class="nav-item">#}
+{#            <a href="{% url 'logout' %}?next={% url 'blog:index' %}"#}
+{#               class="nav-link active" aria-current="page">Logout#}
+{#            </a>#}
+{#          </li>#}
+{#        {% else %}#}
+{#          <li class="nav-item">#}
+{#            <a class="nav-link active" aria-current="page"#}
+{#               href="{% url 'login' %}?next={{ request.path }}">Login#}
+{#            </a>#}
+{#          </li>#}
+{#        {% endif %}#}
+{#      </ul>#}
+{#    </div>#}
+{#  </div>#}
+{#</nav>#}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link mx-2 active" aria-current="page" href="{% url 'blog:index' %}">Home</a>
+        </li>
+      </ul>
+    <ul class="navbar-nav mx-auto">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'blog:user_detail' user.id %}"
+               class="nav-link active" aria-current="page">Hello: '{{ request.user.get_username }}'
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{% url 'logout' %}?next={% url 'blog:index' %}"
+               class="nav-link mx-2 btn rounded-150 btn-info" aria-current="page">Logout
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link mx-2 btn rounded-150 btn-info" aria-current="page"
+               href="{% url 'login' %}?next={{ request.path }}">Login
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class=" col-md-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h3 class=" site-heading my-4 mt-3 text-white"> Python Blog </h3>
+            <p class="text-light">For python learners! &nbsp</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mt-3 left">
+        {% include "blog/post_list.html" %}
+        {% include "includes/pagination.html" %}
+      </div>
+      {% include "includes/sidebar_tags.html"  with tags=tag_list%}
+    </div>
+  </div>
+{% endblock %}

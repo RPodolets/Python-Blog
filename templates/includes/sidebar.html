@@ -1,0 +1,38 @@
+<div class="col-md-4 float-right ">
+  <div class="card my-3">
+    <h5 class="card-header">Search</h5>
+    <div class="card-body">
+      {% include "includes/search_form.html" %}
+    </div>
+  </div>
+
+  <div class="card my-3">
+    <h5 class="card-header">{{ user.username }}</h5>
+    <div class="card-body d-flex justify-content-between">
+      <a class="btn btn-info" href="{% url 'blog:post_create' %}">Create</a>
+    </div>
+  </div>
+
+  <div class="card my-3">
+    <h5 class="card-header">Tags</h5>
+    <div class="card-body">
+      {% for tag in tag_list %}
+          <a href="?tag={{ tag.name }}" class="tag">{{ tag.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card my-3">
+    <h5 class="card-header">Popular</h5>
+    <div class="card-body">
+      <ul>
+      {% for post in post_list|dictsortreversed:"views"|slice:":5" %}
+          <li><a href="{% url 'blog:post_detail' post.id %}" class="item_link">{{ post.title }}</a></li>
+      {% empty %}
+        <p>No posts</p>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
