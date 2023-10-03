@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import Textarea
 
-from .models import Comment, User
+from .models import Comment, User, Post, Tag
 
 
 class UserForm(UserChangeForm):
@@ -36,6 +36,21 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "first_name", "last_name", "email", "password1", "password2")
+
+
+class PostForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = Post
+        fields = ("title", "content", "tags")
+        labels = ("",)
+        widgets = {
+            "content": Textarea(attrs={"rows": 8, "cols": 150}),
+        }
 
 
 class PostSearchForm(forms.Form):

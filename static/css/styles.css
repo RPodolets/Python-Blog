@@ -18,6 +18,7 @@ body {
 
 .card {
     box-shadow: 0 16px 48px #E3E7EB;
+    border: 5px solid black;
 }
 
 .head_text {

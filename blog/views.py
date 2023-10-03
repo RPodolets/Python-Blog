@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from blog.forms import CommentForm, SignUpForm, PostSearchForm, UserForm
+from blog.forms import CommentForm, SignUpForm, PostSearchForm, UserForm, PostForm
 from blog.models import Post, Tag, Comment, User
 
 
@@ -17,7 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class PostListView(LoginRequiredMixin, generic.ListView):
     model = Post
-    queryset = Post.objects.select_related("user").prefetch_related("tags").order_by("created_at")
+    queryset = Post.objects.select_related("user").prefetch_related("tags").order_by("-created_at")
     template_name = "blog/post_list.html"
     paginate_by = 5
 
@@ -98,28 +98,30 @@ class UserDelete(LoginRequiredMixin, generic.DeleteView):
 
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
-    model = User
+    model = Post
+    form_class = PostForm
+    success_url = reverse_lazy("blog:post_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     queryset = Post.objects.select_related("user").prefetch_related("tags")
+    form_class = PostForm
+    success_url = reverse_lazy("blog:post_list")
 
 
 class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
+    success_url = reverse_lazy("blog:post_list")
 
 
 class CommentDelete(LoginRequiredMixin, generic.DeleteView):
     model = Comment
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pk = self.request.GET.get("pk", "")
-        context["post_pk"] = pk
-        return context
-
     def get_success_url(self):
-        print(self.kwargs.items())
         post_id = Comment.objects.get(id=self.kwargs["pk"]).post.id
         return reverse_lazy("blog:post_detail", kwargs={"pk": post_id})

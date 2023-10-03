@@ -11,11 +11,13 @@ from blog.views import (
     UserDelete,
     index,
     CommentDelete,
+    PostCreateView,
 )
 
 urlpatterns = [
     path("", index, name="index"),
     path("post/", PostListView.as_view(), name="post_list"),
+    path("post/create", PostCreateView.as_view(), name="post_create"),
     path("post/<int:pk>/", post_detail, name="post_detail"),
     path("post/<int:pk>/update", PostUpdateView.as_view(), name="post_update"),
     path("post/<int:pk>/delete", PostDeleteView.as_view(), name="post_delete"),
