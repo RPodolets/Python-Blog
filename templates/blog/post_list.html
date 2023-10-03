@@ -1,18 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-  <header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class=" col-md-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            <h3 class=" site-heading my-4 mt-3 text-darkgrey"> Python Blog </h3>
-            <p class="text-black">For python learners! &nbsp</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
   <div class="container">
     <div class="row">
       <div class="col-md-8 mt-3 left">
@@ -26,7 +13,7 @@
                 {% endfor %}
               </p>
               <p class="card-text text-muted h6 d-flex justify-content-between">
-                <span>{{ post.user }} | {{ post.created_at }}</span>
+                <span><a href="{% url 'blog:user_detail' post.user.id %}">{{ post.user }}</a> | {{ post.created_at }}</span>
                 <span>{{ post.views }} view{{ post.views|pluralize:",s" }}</span>
               </p>
               <p class="card-text">{{ post.content|slice:":200" }}</p>
